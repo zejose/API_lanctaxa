@@ -7,6 +7,7 @@ from sqlalchemy import String, Boolean, Integer, Column, Text, DateTime, Float
 class Lancamento(Base):
     __tablename__='lancamento'
     id=Column(Integer,primary_key=True)
+    n_declaracao=Column(Integer,nullable=True)
     nome=Column(String,nullable=True)
     cpf_cnpj=Column(String,nullable=True)
     data_inicio=Column(DateTime(datetime.date),nullable=True)

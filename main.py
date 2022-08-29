@@ -6,6 +6,9 @@ from datetime import date
 from fastapi import FastAPI, status, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List
+
+from sqlalchemy import desc
+
 from database import SessionLocal
 import models
 import calculo_taxa
@@ -47,11 +50,27 @@ class Lancamento(BaseModel): #serializer
     class Config:
         orm_mode=True
 
+class V_lancamento(BaseModel): #serializer
+    cpf_cnpj:str
+    nome:str
+    endereco:str
+    cidade:str
+    estado:str
+    cep:str
+    cnae: str
+    valor_lancado:float
+    n_sislanca:int
+
+    class Config:
+        orm_mode=True
+
+
+
 
 db = SessionLocal()
 
 
-@app.get('/items', response_model=List[Lancamento], status_code=200)
+@app.get('/items', response_model=List[V_lancamento], status_code=200)
 def get_all_items():
     items = db.query(models.Lancamento).all()
 
@@ -82,12 +101,19 @@ def create_an_item(item: Lancamento):
     print(ano_ini)
     print(anos_cobranca)
 
+    n_declaracao_registro = db.query(models.Lancamento).order_by(models.Lancamento.id.desc()).first()
+    n_declaracao = (n_declaracao_registro.n_declaracao) + 1
+    print(n_declaracao)
+    print('xxxxxxxxxxxxssssssssssssssssssssssxxxxxxxxxxxx')
+
+
     for anos in anos_cobranca:
 
-        new_item = models.Lancamento1(
+        new_item = models.Lancamento(
 
             cpf_cnpj=item.cpf_cnpj,
             nome=item.nome,
+            n_declaracao=n_declaracao,
             endereco=item.endereco,
             cidade=item.cidade,
             estado=item.estado,
