@@ -5,6 +5,9 @@ import datetime
 #import time
 from decimal import *
 
+import models
+
+
 
 def anos_devidos_ai(data_inicio, data_final):
 
@@ -43,3 +46,54 @@ def anos_devidos_ai(data_inicio, data_final):
             data_str = int(data_str) + 1
 
     return data_inicial, anos_cobranca
+
+
+'''
+def calcula_valor_taxa_tfe(ano_base, area_atividade=100, numero_cnae='01234'):
+    cnae_usuario = str(numero_cnae)[0:2]
+    print('cnae:', cnae_usuario)
+    print('ano_base:', ano_base)
+    ano_base = str(ano_base)
+
+    tabela = db.query(models.cnaecalculo).filter_by(ano=ano_base, cnae=cnae_usuario).all()
+    for dados in tabela:
+        dado = dados.cnae
+        dado1 = dados.cnae_extenso
+        dado2 = dados.indice
+        print(dado, dado1, dado2)
+
+    valor_minimo = db.query(models.cnaecalculo).filter_by(ano=ano_base, cnae='VM1').first()
+    print()
+
+    valor_minimo_tfe = valor_minimo.indice
+    valor_maximo = db.query(models.cnaecalculo).filter_by(ano=ano_base, cnae='VM2').first()
+    valor_maximo_tfe = valor_maximo.indice
+    print(valor_minimo_tfe,valor_maximo_tfe)
+
+
+    cnae = dado
+    #cnae = numero_cnae
+
+    atividade_extenso = dado1
+    #atividade_extenso = worksheet.cell(col_busca + 1, 2).value
+
+    valor_indice_procurado = dado2
+    #valor_indice_procurado = worksheet.cell(col_busca + 1, lin_busca + 1).value
+    #print('valor do índice:', valor_indice_procurado)
+
+    valor_final_taxa = float(valor_indice_procurado) * float(area_atividade)
+    #print('valor da taxa:', valor_final_taxa)
+
+    if valor_final_taxa < float(valor_minimo_tfe):
+        valor_final_taxa = float(valor_minimo_tfe)
+    #if valor_final_taxa < float(worksheet.cell(109, lin_busca + 1).value):
+        #valor_final_taxa = float(worksheet.cell(109, lin_busca + 1).value)
+
+    if valor_final_taxa > float(valor_maximo_tfe):
+        valor_final_taxa = float(valor_maximo_tfe)
+    #if valor_final_taxa > float(worksheet.cell(110, lin_busca + 1).value):
+       # valor_final_taxa = float(worksheet.cell(110, lin_busca + 1).value)
+
+    #return valor_final_taxa, cnae, atividade_extenso, valor_indice_procurado
+    return valor_final_taxa'''
+
